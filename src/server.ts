@@ -84,7 +84,7 @@ export interface Response {
  * The response function for a {@link Server}.
  * @private
  */
-export type RespondFunction = (response: Response) => Promise<void>;
+export type RespondFunction = (response: Response) => Promise<any>;
 
 /**
  * The handler for pushing requests to a {@link SlashCreator}.

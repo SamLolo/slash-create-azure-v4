@@ -1,6 +1,6 @@
 import { Server, ServerRequestHandler } from '../server';
 // @ts-ignore
-import type { Context, HttpRequest } from '@azure/functions';
+import type { HttpRequest, InvocationContext, HttpResponseInit } from '@azure/functions';
 import { MultipartData } from '../util/multipartData';
 
 /**
@@ -10,38 +10,48 @@ import { MultipartData } from '../util/multipartData';
 export class AzureFunctionServer extends Server {
   private _handler?: ServerRequestHandler;
 
-  constructor(moduleExports: any, target = 'interactions') {
+  constructor() {
     super({ alreadyListening: true });
-    moduleExports[target] = this._onRequest.bind(this);
   }
 
-  private _onRequest(context: Context, req: HttpRequest) {
+  public async handleRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit> {
     if (!this._handler) {
-      context.res!.status = 503;
-      context.res!.send('Server has no handler');
+      return {
+        status: 503,
+        body: 'Server has no handler'
+      }
     }
-    if (req.method !== 'POST') {
-      context.res!.status = 400;
-      context.res!.send('Server only supports POST requests.');
+    if (request.method !== 'POST') {
+      return {
+        status: 400,
+        body: 'Server only supports POST requests.'
+      }
     }
     this._handler!(
       {
-        headers: req.headers,
-        body: req.body,
-        request: req,
+        headers: request.headers,
+        body: request.body,
+        request: request,
         response: context.res
       },
       async (response) => {
-        context.res!.status = response.status || 200;
         if (response.files) {
           const data = new MultipartData();
-          context.res!.header('Content-Type', 'multipart/form-data; boundary=' + data.boundary);
-          for (const i in response.files) data.attach(`files[${i}]`, response.files[i].file, response.files[i].name);
+          for (const i in response.files) {
+            data.attach(`files[${i}]`, response.files[i].file, response.files[i].name);
+          };
           data.attach('payload_json', JSON.stringify(response.body));
-          context.res!.send(Buffer.concat(data.finish()));
+          return {
+            status: response.status || 200,
+            headers: { 'Content-Type': `multipart/form-data; boundary=${data.boundary}` },
+            body: Buffer.concat(data.finish())
+          }
         } else {
-          context.res!.header('Content-Type', 'application/json');
-          context.res!.send(response.body);
+          return {
+            status: response.status || 200,
+            headers: { 'Content-Type': 'application/json' },
+            jsonBody: response.body
+          }
         }
       }
     );
