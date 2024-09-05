@@ -12,5 +12,4 @@ docs/docs.json
 webpack/
 testing/
 .idea/
-lib/
 eslint-results.sarif
