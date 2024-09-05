@@ -12,6 +12,7 @@ export class AzureFunctionServer extends Server {
 
   constructor() {
     super({ alreadyListening: true });
+    this.handleRequest.bind(this);
   }
 
   public async handleRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit> {
@@ -60,7 +61,5 @@ export class AzureFunctionServer extends Server {
   /** @private */
   createEndpoint(path: string, handler: ServerRequestHandler) {
     this._handler = handler;
-    console.log("Hello from create endpoint");
-    console.log(this._handler)
   }
 }
