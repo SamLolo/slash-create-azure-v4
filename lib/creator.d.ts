@@ -10,6 +10,7 @@ import { ComponentContext } from './structures/interfaces/componentContext';
 import { AutocompleteContext } from './structures/interfaces/autocompleteContext';
 import { ModalInteractionContext } from './structures/interfaces/modalInteractionContext';
 import { RequestHandler, RESTOptions } from './rest/requestHandler';
+import { AzureFunctionServer } from './web';
 declare const BaseSlashCreator_base: new () => TypedEventEmitter<SlashCreatorEvents>;
 /** The base class for SlashCreators. */
 export declare class BaseSlashCreator extends BaseSlashCreator_base {
@@ -22,7 +23,7 @@ export declare class BaseSlashCreator extends BaseSlashCreator_base {
     /** The commands loaded onto the creator */
     readonly commands: Collection<string, SlashCommand<any>>;
     /** The server being used in the creator */
-    server?: Server;
+    server?: Server | AzureFunctionServer;
     /** The client being passed to this creator */
     client?: any;
     /** The formatted allowed mentions from the options */
