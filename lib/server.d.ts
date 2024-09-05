@@ -1,5 +1,6 @@
 import { AnyRequestData } from './constants';
 import type { FileContent } from './rest/requestHandler';
+import type { HttpRequest, InvocationContext, HttpResponseInit } from '@azure/functions';
 /**
  * The base Server for {@link SlashCreator}.
  * @private
@@ -9,6 +10,7 @@ export declare class Server {
     alreadyListening: boolean;
     /** Whether this server is a webserver. */
     isWebserver: boolean;
+    handleRequest(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit>;
     /**
      * @param opts The server options
      * @param isWebserver Whether this server is a webserver

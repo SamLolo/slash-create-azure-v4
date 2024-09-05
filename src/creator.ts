@@ -25,7 +25,6 @@ import { ComponentContext } from './structures/interfaces/componentContext';
 import { AutocompleteContext } from './structures/interfaces/autocompleteContext';
 import { ModalInteractionContext } from './structures/interfaces/modalInteractionContext';
 import { RequestHandler, RESTOptions } from './rest/requestHandler';
-import { AzureFunctionServer } from './web';
 
 /** The base class for SlashCreators. */
 export class BaseSlashCreator extends (EventEmitter as any as new () => TypedEventEmitter<SlashCreatorEvents>) {
@@ -38,7 +37,7 @@ export class BaseSlashCreator extends (EventEmitter as any as new () => TypedEve
   /** The commands loaded onto the creator */
   readonly commands = new Collection<string, SlashCommand>();
   /** The server being used in the creator */
-  server?: Server | AzureFunctionServer;
+  server?: Server;
   /** The client being passed to this creator */
   client?: any;
   /** The formatted allowed mentions from the options */

@@ -2,6 +2,8 @@
 
 import { AnyRequestData } from './constants';
 import type { FileContent } from './rest/requestHandler';
+// @ts-ignore
+import type { HttpRequest, InvocationContext, HttpResponseInit } from '@azure/functions';
 
 /**
  * The base Server for {@link SlashCreator}.
@@ -12,6 +14,8 @@ export class Server {
   alreadyListening: boolean;
   /** Whether this server is a webserver. */
   isWebserver: boolean;
+  // @ts-ignore
+  handleRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit>;
 
   /**
    * @param opts The server options
