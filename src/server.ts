@@ -15,7 +15,6 @@ export class Server {
   /** Whether this server is a webserver. */
   isWebserver: boolean;
   // @ts-ignore
-  handleRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit>;
 
   /**
    * @param opts The server options
@@ -46,6 +45,10 @@ export class Server {
   /** @private */
   async listen(port = 8030, host = 'localhost') {
     throw new Error(`${this.constructor.name} doesn't have a listen method. You should remove \`.startServer()\`.`);
+  }
+
+  public getHandler() {
+    throw new Error(`${this.constructor.name} doesn't have a public request handler.`);
   }
 }
 

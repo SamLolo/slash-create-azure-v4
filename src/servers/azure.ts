@@ -12,10 +12,13 @@ export class AzureFunctionServer extends Server {
 
   constructor() {
     super({ alreadyListening: true });
-    this.handleRequest.bind(this);
   }
 
-  public async handleRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit> {
+  public getHandler() {
+    return this._onRequest.bind(this);
+  }
+
+  private async _onRequest(request: HttpRequest, context: InvocationContext,): Promise<HttpResponseInit> {
     if (!this._handler) {
       return {
         status: 503,
