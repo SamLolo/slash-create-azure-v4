@@ -3,7 +3,7 @@
 import { AnyRequestData } from './constants';
 import type { FileContent } from './rest/requestHandler';
 // @ts-ignore
-import type { HttpRequest, InvocationContext, HttpResponseInit } from '@azure/functions';
+import type { HttpHandler} from '@azure/functions';
 
 /**
  * The base Server for {@link SlashCreator}.
@@ -47,7 +47,7 @@ export class Server {
     throw new Error(`${this.constructor.name} doesn't have a listen method. You should remove \`.startServer()\`.`);
   }
 
-  public getHandler() {
+  public getHandler(): HttpHandler {
     throw new Error(`${this.constructor.name} doesn't have a public request handler.`);
   }
 }

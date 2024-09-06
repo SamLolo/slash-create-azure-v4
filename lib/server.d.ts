@@ -1,5 +1,6 @@
 import { AnyRequestData } from './constants';
 import type { FileContent } from './rest/requestHandler';
+import type { HttpHandler } from '@azure/functions';
 /**
  * The base Server for {@link SlashCreator}.
  * @private
@@ -22,7 +23,7 @@ export declare class Server {
     handleInteraction(handler: InteractionHandler): void;
     /** @private */
     listen(port?: number, host?: string): Promise<void>;
-    getHandler(): void;
+    getHandler(): HttpHandler;
 }
 /** Options for a {@link Server}. */
 export interface ServerOptions {

@@ -1,6 +1,6 @@
 import { Server, ServerRequestHandler } from '../server';
 // @ts-ignore
-import type { HttpRequest, InvocationContext, HttpResponseInit } from '@azure/functions';
+import type { HttpRequest, InvocationContext, HttpResponseInit, HttpHandler } from '@azure/functions';
 import { MultipartData } from '../util/multipartData';
 
 /**
@@ -14,7 +14,7 @@ export class AzureFunctionServer extends Server {
     super({ alreadyListening: true });
   }
 
-  public getHandler() {
+  public getHandler(): HttpHandler {
     return this._onRequest.bind(this);
   }
 
@@ -33,8 +33,8 @@ export class AzureFunctionServer extends Server {
     }
     this._handler!(
       {
-        headers: request.headers,
-        body: request.body,
+        headers: request.headers(),
+        body: request.body(),
         request: request,
         response: context.res
       },
