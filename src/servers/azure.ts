@@ -31,12 +31,13 @@ export class AzureFunctionServer extends Server {
         body: 'Server only supports POST requests.'
       }
     }
+    const body: string = await request.text();
     console.log(`HEADERS: ${request.headers.entries()}`)
-    console.log(`BODY: ${await request.text()}`)
+    console.log(`BODY: ${body}`)
     this._handler!(
       {
         headers: request.headers.entries(),
-        body: await request.text(),
+        body: body,
         request: request,
         response: context.res
       },
