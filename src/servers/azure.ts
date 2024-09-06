@@ -33,8 +33,8 @@ export class AzureFunctionServer extends Server {
     }
     this._handler!(
       {
-        headers: request.headers(),
-        body: request.body(),
+        headers: request.headers.entries(),
+        body: request.body,
         request: request,
         response: context.res
       },
